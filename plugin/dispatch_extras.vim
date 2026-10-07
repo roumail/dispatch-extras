@@ -3,6 +3,17 @@
 if exists('g:loaded_dispatch_extras')
   finish
 endif
+" Required plugins: without them nothing here is defined
+let s:missing = filter({
+      \ 'tpope/vim-dispatch': 'autoload/dispatch.vim',
+      \ }, 'empty(globpath(&rtp, v:val))')
+if !empty(s:missing)
+  echohl WarningMsg
+  echomsg 'dispatch-extras: not loaded, requires ' . join(sort(keys(s:missing)), ', ')
+  echohl None
+  finish
+endif
+unlet s:missing
 let g:loaded_dispatch_extras = 1
 
 " Open log of last dispatch run as a buffer
