@@ -2,7 +2,7 @@
 " 1 = Launch in terminal
 " 0 = Launch in tmux window
 function! dispatch_extras#toggle_start_strategy() abort
-  let g:dispatch_no_tmux_start = !get(g:, 'dispatch_no_tmux_start', 1)
+  let g:dispatch_no_tmux_start = !get(g:, 'dispatch_no_tmux_start', 0)
   echo 'Default Start startegy set to terminal: ' . (g:dispatch_no_tmux_start ? 'on' : 'off')
 endfunction
 
