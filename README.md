@@ -14,7 +14,8 @@ Binds no keys itself; it provides `<Plug>` mappings for your vimrc or other plug
 ## Install
 
 Requires [vim-dispatch](https://github.com/tpope/vim-dispatch).
-If a required plugin is missing, Vim shows
+Required plugins are checked once every plugin has loaded, so the order of your
+Plug lines doesn't matter. If one is missing, Vim shows
 `dispatch-extras: not loaded, requires …` at startup and the plugin defines nothing.
 
 ```vim
