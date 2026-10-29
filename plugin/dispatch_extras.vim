@@ -5,32 +5,16 @@ if exists('g:loaded_dispatch_extras')
 endif
 let g:loaded_dispatch_extras = 1
 
-" Required plugins are checked once every plugin has loaded (VimEnter, or now
-" when loaded later): their g:loaded_* guards tell whether they are installed.
-" Without them nothing below is defined.
-function! s:init() abort
-  let l:missing = filter({
+" Warns at startup when a required plugin isn't loaded (roumail/vim-requires)
+try
+  call roumail_requires#check('dispatch-extras', {
         \ 'tpope/vim-dispatch': 'g:loaded_dispatch',
-        \ }, '!exists(v:val)')
-  if !empty(l:missing)
-    echohl WarningMsg
-    echomsg 'dispatch-extras: not loaded, requires ' . join(sort(keys(l:missing)), ', ')
-    echohl None
-    return
-  endif
+        \ })
+catch /^Vim\%((\a\+)\)\=:E117:/
+endtry
 
-  nnoremap <Plug>(dispatch-extras-log) :tabedit `=dispatch#request().file`<CR>
-  nnoremap <Plug>(dispatch-extras-toggle-start-strategy) <Cmd>call dispatch_extras#toggle_start_strategy()<CR>
-  nnoremap <Plug>(dispatch-extras-repeat-start) <Cmd>call dispatch_extras#repeat_last_start()<CR>
-  " https://github.com/tpope/vim-dispatch/issues/80#issuecomment-290958499
-  nnoremap <Plug>(dispatch-extras-repeat-dispatch) :Copen \| Dispatch<CR>
-endfunction
-
-if v:vim_did_enter
-  call s:init()
-else
-  augroup dispatch_extras_init
-    autocmd!
-    autocmd VimEnter * ++once call s:init()
-  augroup END
-endif
+nnoremap <Plug>(dispatch-extras-log) :tabedit `=dispatch#request().file`<CR>
+nnoremap <Plug>(dispatch-extras-toggle-start-strategy) <Cmd>call dispatch_extras#toggle_start_strategy()<CR>
+nnoremap <Plug>(dispatch-extras-repeat-start) <Cmd>call dispatch_extras#repeat_last_start()<CR>
+" https://github.com/tpope/vim-dispatch/issues/80#issuecomment-290958499
+nnoremap <Plug>(dispatch-extras-repeat-dispatch) :Copen \| Dispatch<CR>
